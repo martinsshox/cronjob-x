@@ -3,7 +3,7 @@ import traceback
 from typing import List
 from requests import Response
 from logging import Handler, LogRecord
-from ...helper.discord.FormatterEmbed import FormatterEmbed
+from ...helpers.discordHelper.FormatterEmbed import FormatterEmbed
 
 MAX_LOG_LENGTH = 2000
 

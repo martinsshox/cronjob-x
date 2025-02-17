@@ -1,15 +1,15 @@
 import asyncio
 from source.config.Env import Env
 from source.cron.ManagerCron import ManagerCron
-from source.cron.jobs.discloud.DiscloudJob import DiscloudJob
-from source.http.discloud.DiscloudClient import DiscloudClient
+from source.clients.discloud.DiscloudClient import DiscloudClient
+from source.cron.jobs.discloud.DiscloudCronJob import DiscloudCronJob
 
 managerCron = ManagerCron()
 
 discloudClient = DiscloudClient(Env.DISCLOUD_API_TOKEN)
-discloudJob = DiscloudJob(discloudClient, "shox")
+discloudCronJob = DiscloudCronJob(discloudClient, "shox")
 
-managerCron.add_job(discloudJob)
+managerCron.add_job(discloudCronJob)
 managerCron.run()
 
 asyncio.get_event_loop().run_forever()

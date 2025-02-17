@@ -6,7 +6,7 @@ class ManagerCron:
         self._jobs = []
         self._scheduler = AsyncIOScheduler()
         
-    def add_job(self, job):
+    def schedule_job(self, job):
         self._jobs.append(job)
         
     def run(self):
