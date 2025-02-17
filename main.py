@@ -9,7 +9,7 @@ managerCron = ManagerCron()
 discloudClient = DiscloudClient(Env.DISCLOUD_API_TOKEN)
 discloudCronJob = DiscloudCronJob(discloudClient, "shox")
 
-managerCron.add_job(discloudCronJob)
+managerCron.schedule_job(discloudCronJob)
 managerCron.run()
 
 asyncio.get_event_loop().run_forever()
