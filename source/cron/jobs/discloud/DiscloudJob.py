@@ -52,7 +52,7 @@ class DiscloudJob():
         response = await self._client.get_logs_app(self._app_id)
         logs: str = response["apps"]["terminal"]["big"]
         
-        logs = logs.encode("latin1").decode("latin1").split("\n")
+        logs = logs.split("\n")
         recent_logs = deque(logs[-10:], maxlen=10)
 
         self._checked_at = datetime.now()
@@ -63,7 +63,7 @@ class DiscloudJob():
         self._online = False
         self._latest_logs = recent_logs
         
-        for log in recent_logs:    
+        for log in reversed(recent_logs):    
             if "INFO:" in log:
                 self._online = True
                 self._positive_log = log
