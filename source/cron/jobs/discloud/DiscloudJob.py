@@ -39,6 +39,7 @@ class DiscloudJob():
                 return
             
             if latest_logs == recents_logs:
+                logger.warning(f"A verificação foi poupada, não há novas requisições!\n\n**LOG ANTERIOR:**\n```{latest_logs[8]}```\n\n**LOG RECENTE:**\n```{recents_logs[8]}```")
                 return
             
             embed = self._embed.application_on(self._latest_logs, self._positive_log, self._checked_at, self._restarted_at, self._initialized_at)
