@@ -39,7 +39,11 @@ class DiscloudCronJob():
                 return
             
             if latest_logs == recents_logs:
-                logger.warning(f"A verificação foi poupada, não há novas requisições!\n\n**LOG ANTERIOR:**\n```{latest_logs[8]}```\n\n**LOG RECENTE:**\n```{recents_logs[8]}```")
+                logger.warning(
+                    "A verificação foi poupada, não há novas requisições!"
+                    f"\n\n**LOG ANTERIOR:**\n```{latest_logs[8] if len(latest_logs) >= 9 else '\n\n'.join(latest_logs)}```"
+                    f"\n\n**LOG RECENTE:**\n```{recents_logs[8] if len(recents_logs) >= 9 else '\n\n'.join(recents_logs)}```"
+                )
                 return
             
             embed = self._embed.application_on(self._latest_logs, self._positive_log, self._checked_at, self._restarted_at, self._initialized_at)
