@@ -1,6 +1,8 @@
+import asyncio
 import requests
 import traceback
 from typing import List
+from datetime import datetime
 from requests import Response
 from logging import Handler, LogRecord
 from ...helpers.discordHelper.FormatterEmbed import FormatterEmbed
@@ -10,7 +12,7 @@ MAX_LOG_LENGTH = 2000
 class WebhookHandler(Handler):
     def __init__(self, webhook_url: str):
         super().__init__()
-        self.webhook_url = webhook_url
+        self._webhook_url = webhook_url
 
     def emit(self, record: LogRecord):
         try:
@@ -28,8 +30,14 @@ class WebhookHandler(Handler):
                 for message in messages:
                     embed = FormatterEmbed().logger(record.levelname, message)
                     embeds.append(embed)
+            
+            start_time = asyncio.get_running_loop().time()
+            
+            res = requests.post(self._webhook_url, json={"content":content, "embeds":embeds})
                 
-            res = requests.post(self.webhook_url, json={"content":content, "embeds":embeds})
+            end_time = asyncio.get_running_loop().time()
+            elapsed_time = end_time - start_time
+            if elapsed_time > 1: print(datetime.now().strftime("%d/%m/%Y, %H:%M:%S"), f"POST - {self._webhook_url[:53]} -> {elapsed_time:.2f} segundos.")
                 
             if res.status_code != 204:
                 self._fail_request(res)   
